@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERIFY.AI // AI Verification</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="background-grid"></div>
+    <div class="scanline"></div>
+
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i data-lucide="shield-check" class="logo-icon"></i>
+                <span>VERIFY.<span class="highlight">AI</span></span>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot online"></span> SYSTEM ONLINE
+            </div>
+        </header>
+
+        <main>
+            <section class="input-section glass-panel">
+                <div class="section-header">
+                    <h2><i data-lucide="terminal-square"></i> INITIALIZE VERIFICATION PROTOCOL</h2>
+                </div>
+
+                <div class="tab-toggle">
+                    <button id="tabUrl" class="tab-btn active" onclick="switchTab('url')">
+                        <i data-lucide="link"></i> Analyze URL
+                    </button>
+                    <button id="tabText" class="tab-btn" onclick="switchTab('text')">
+                        <i data-lucide="type"></i> Analyze Text
+                    </button>
+                </div>
+
+                <div id="urlSection" class="input-panel active">
+                    <div class="input-wrapper">
+                        <input type="text" id="urlInput" placeholder="Paste news article URL here">
+                    </div>
+                </div>
+
+                <div id="textSection" class="input-panel hidden">
+                    <div class="input-wrapper">
+                        <textarea id="claimInput" placeholder="Paste news article text or content here"
+                            rows="6"></textarea>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <div class="examples">
+                        <span>QUICK TEST:</span>
+                        <button class="chip" onclick="setClaim('Water boils at 100°C')">Water 100°C</button>
+                        <button class="chip" onclick="setClaim('The Earth is flat')">Flat Earth</button>
+                    </div>
+                    <button id="verifyBtn" class="cyber-btn">
+                        <span class="btn-text" id="btnText">ANALYZE URL</span>
+                        <span class="btn-glitch" id="btnGlitch">ANALYZE URL</span>
+                    </button>
+                </div>
+
+                <div class="disclaimer-mini">
+                    <i data-lucide="info"></i> Verification Assistant Tool // Not an absolute truth checker
+                </div>
+            </section>
+
+            <!-- Usage Instructions -->
+            <section class="instructions-section glass-panel">
+                <div class="section-header">
+                    <h2><i data-lucide="book-open"></i> OPERATIONAL PROTOCOL</h2>
+                </div>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-icon"><i data-lucide="keyboard"></i></div>
+                        <h3>1. INPUT DATA</h3>
+                        <p>Enter the news headline or fact you wish to verify in the text terminal.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i data-lucide="cpu"></i></div>
+                        <h3>2. ANALYSIS</h3>
+                        <p>Click "RUN ANALYSIS". The AI scans the local secure database for matching records.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i data-lucide="shield-alert"></i></div>
+                        <h3>3. VERIFICATION</h3>
+                        <p>Receive an instant VERDICT (True/False/Uncertain) based on known facts.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="resultsSection" class="results-section glass-panel hidden">
+                <div class="section-header">
+                    <h2><i data-lucide="activity"></i> ANALYSIS RESULT</h2>
+                </div>
+
+                <!-- NEW: Cyber & ML Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label"><i data-lucide="shield-alert"></i> CYBER RISK</span>
+                        <div class="stat-value" id="riskScore">0/100</div>
+                        <div class="stat-bar">
+                            <div class="stat-fill" id="riskBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label"><i data-lucide="brain-circuit"></i> AI PROBABILITY</span>
+                        <div class="stat-value" id="mlConfidence">0%</div>
+                        <div class="stat-bar">
+                            <div class="stat-fill" id="mlBar" style="width: 0%"></div>
+                        </div>
+                        <span class="stat-sub" id="mlLabel">Unknown</span>
+                    </div>
+                </div>
+
+                <div class="verdict-container" id="verdictContainer">
+                    <div class="verdict-badge" id="verdictBadge">ANALYZING...</div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h3><i data-lucide="cpu"></i> LOGICAL REASONING</h3>
+                    <p id="reasoningText" class="typing-effect">Initiating logic core...</p>
+                </div>
+
+                <div id="extractedTextContainer" class="extracted-box hidden">
+                    <h3><i data-lucide="scan-text"></i> EXTRACTED EVIDENCE</h3>
+                    <p id="extractedText" class="mono-text">No text extracted.</p>
+                </div>
+
+                <button id="resetBtn" class="reset-btn">
+                    <i data-lucide="refresh-ccw"></i> NEW VERIFICATION
+                </button>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loader" class="loader-overlay hidden">
+        <div class="compact-loader">
+            <div class="loader-ring"></div>
+            <div class="robot-mini">
+                <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect class="robot-body" x="30" y="40" width="40" height="40" rx="4" fill="var(--primary)" />
+                    <rect class="robot-head" x="35" y="20" width="30" height="18" rx="2" fill="var(--primary)" />
+                    <rect x="42" y="26" width="16" height="4" rx="1" fill="#000" />
+                    <rect class="arm left-arm" x="22" y="45" width="8" height="25" rx="4" fill="var(--primary-dim)" />
+                    <rect class="arm right-arm" x="70" y="45" width="8" height="25" rx="4" fill="var(--primary-dim)" />
+                    <rect class="leg left-leg" x="35" y="80" width="10" height="25" rx="5" fill="var(--primary)" />
+                    <rect class="leg right-leg" x="55" y="80" width="10" height="25" rx="5" fill="var(--primary)" />
+                </svg>
+            </div>
+        </div>
+        <div class="loading-text" id="loadingText">ANALYZING DATA...</div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

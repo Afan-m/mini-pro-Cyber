@@ -1,0 +1,12 @@
+[
+    {
+        "text": "The moon is made of green cheese.",
+        "verdict": "False",
+        "reasoning": "Apollo missions brought back rock samples confirming the Moon is made of rock and dust, not cheese."
+    },
+    {
+        "text": "Example Fact 2",
+        "verdict": "True",
+        "reasoning": "Explanation for fact 2."
+    }
+]
