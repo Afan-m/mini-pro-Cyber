@@ -75,23 +75,3 @@ The system detects "Adversarial Attacks" which aim to spread misinformation thro
 ### T3: System Denial (DoS)
 *   **Attack**: flooding the API with 10,000 requests per minute to crash the verifier.
 *   **Mitigation**: SQL-backed Rate Limiter blocking IPs after 10 requests/min.
-
----
-
-## 6. How to Run
-1. **Backend**: 
-   - Ensure `.env` has `GOOGLE_API_KEY`.
-   - Run `pip install -r requirements.txt`.
-   - Run `python train_ml.py` (Trains the brain).
-   - Run `run_backend.bat`.
-2. **Frontend**: Open `index.html`.
-
----
-
-## 7. Technical Evaluation / Viva Q&A
-- **Q: Why is this better than just using ChatGPT?**
-  - *Answer*: This is a hybrid local-first system. It respects privacy, implements local security guardrails, and "learns" from the internet, making it faster and more resilient over time.
-- **Q: How do you handle new terminology?**
-  - *Answer*: Through the "Wikipedia/Gemini Auto-Learning" fallback which updates the local SQL database for future users.
-- **Q: What is the Cyber Security component?**
-  - *Answer*: Our system implements Adversarial Detection, Rate Limiting, and Source Reputation Scoring (Blacklisting/Whitelisting).
